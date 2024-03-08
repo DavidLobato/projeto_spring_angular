@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
     @Autowired
