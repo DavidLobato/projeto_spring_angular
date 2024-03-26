@@ -39,13 +39,14 @@ export class PrincipalComponent {
       });
   }
 
+  //Método para editar clientes
   editar(): void {
     this.servico.editar(this.cliente)
       .subscribe(retorno => {
 
         //Obter a posição do vetor que está o cliente
         let posicao = this.clientes.findIndex(obj => {
-          return obj.codigo == retorno.codigo;
+          return obj.id == retorno.id;
         });
 
         //Alterar os dados do cliente
@@ -64,11 +65,49 @@ export class PrincipalComponent {
       });
   }
 
+  //Método para excluir clientes
+  remover(): void {
+    this.servico.remover(this.cliente.id)
+      .subscribe(retorno => {
+
+        //Obter a posição do vetor que está o cliente
+        let posicao = this.clientes.findIndex(obj => {
+          return obj.id == this.cliente.id;
+        });
+
+        //Remover cliente do vetor
+        this.clientes.splice(posicao, 1);
+
+        //Limpa formulário 
+        this.cliente = new Cliente();
+
+        //visibilidade dos botões
+        this.btnCadastrar = true;
+
+        //visibilidade da tabela
+        this.tabela = true;
+
+        alert("Cliente removido com sucesso.");
+      });
+  }
+
   //Metodo para selecionar um cliente especifico
   selecionarCliente(posicao: number): void {
     this.cliente = this.clientes[posicao];
     this.btnCadastrar = false;
     this.tabela = false;
+  }
+
+  //Método para cancelar
+  cancelar(): void {
+    this.cliente = new Cliente();
+
+    //visibilidade dos botões
+    this.btnCadastrar = true;
+
+    //visibilidade da tabela
+    this.tabela = true;
+
   }
 
   ngOnInit() {
